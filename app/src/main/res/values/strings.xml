@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Tracking App</string>
+    <string name="input_details">Input Details</string>
+    <string name="input_grades">Input Grades</string>
+    <string name="display_details">Display Details</string>
+    <string name="sort_details">Sort Details</string>
+    <string name="credits">Credits</string>
+    <string name="this_app_was_created_by">This app was created by</string>
+    <string name="shahar_yani">Shahar Yani</string>
+    <string name="home_tel">Home tel.</string>
+    <string name="phone_number">Phone Num</string>
+    <string name="student_name">Student Name</string>
+    <string name="enter_the_student_details">Enter the student details</string>
+    <string name="address">Address</string>
+    <string name="save">Save the details</string>
+    <string name="first_parent">Parent 1</string>
+    <string name="second_parent">Parent 2</string>
+    <string name="press_long_to_delete_a_student_from_the_list">Press long to delete a student from the list</string>
+    <string name="insert_grades">Insert grades</string>
+    <string name="subjects">Subjects</string>
+    <string name="s">Students</string>
+    <string name="new_subject">new Subject</string>
+    <string name="show_achievements">show achievements</string>
+</resources>
