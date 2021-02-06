@@ -78,17 +78,14 @@ public class displayActivity extends AppCompatActivity implements  View.OnCreate
         AdapterView.AdapterContextMenuInfo adpInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         pos = adpInfo.position;
         String action = item.getTitle().toString();
-        if (action.equals("Delete student")){
-            if (!nameList.get(pos).equals("")){
+        if (action.equals("Delete Student")){
                 deleteStudent(pos);
                 deleteStudentGrades(pos);
                 nameList.remove(pos);
                 details.remove(pos);
-                customadp = new CustomAdapter(getApplicationContext(), nameList, details); // need to fix; customadp.notifyDataSetChanged();
+                customadp.notifyDataSetChanged();
                 lv.setAdapter(customadp);
                 Toast.makeText(this, "The student has been deleted successfully", Toast.LENGTH_SHORT).show();
-            }
-            else Toast.makeText(this, "No student was detected", Toast.LENGTH_SHORT).show();
         }
         return super.onContextItemSelected(item);
     }

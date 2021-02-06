@@ -18,7 +18,8 @@
     <string name="press_long_to_delete_a_student_from_the_list">Press long to delete a student from the list</string>
     <string name="insert_grades">Insert grades</string>
     <string name="subjects">Subjects</string>
-    <string name="s">Students</string>
     <string name="new_subject">new Subject</string>
     <string name="show_achievements">show achievements</string>
+    <string name="gardesOfStudent">Grades of the student:</string>
+    <string name="wholeStudentText">The whole students that have recorded</string>
 </resources>

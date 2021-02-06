@@ -14,6 +14,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ *  * @author		Shahar Yani
+ *  * @version  	1.0
+ *  * @since		8/01/2021
+ *
+ *  * This inputActivity.class enables to the user to insert student's details
+ *    to the SQLite DataBase. and there is a menu move to the others activities.
+ *  */
 public class inputActivity extends AppCompatActivity {
 
     EditText name, address, tel, homeTel, firstParent, firstTel, secParent, secTel;
@@ -40,6 +48,12 @@ public class inputActivity extends AppCompatActivity {
         hlp = new HelperDB(this);
     }
 
+    /**
+     * SaveData method is saving the details of a student that is correct
+     * in all of the conditions that in checkAll() and checkCouples() methods
+     *
+     * @param view the view
+     */
     public void saveData(View view) {
         if (checkAll() && checkCouples()) {
             cv = new ContentValues();
@@ -77,6 +91,12 @@ public class inputActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * checkCouples method returns True if there is not other student
+     * that has the same references of a student object.
+     * Otherwise, returns false
+     *
+     */
     private boolean checkCouples() {
         boolean sameName, sameTel;
         sameName = sameTel = false;
@@ -98,6 +118,10 @@ public class inputActivity extends AppCompatActivity {
         return (!sameName && !sameTel);
     }
 
+    /**
+     * checkAll method returns True if the input validity is in the conditions by each reference.
+     * Otherwise, returns false
+     */
     private boolean checkAll() {
         boolean flag = true;
         if (name.getText().toString().isEmpty() || address.getText().toString().isEmpty() || tel.getText().toString().isEmpty() || homeTel.getText().toString().isEmpty())

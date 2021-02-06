@@ -25,6 +25,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Set;
 
+/**
+ *  * @author		Shahar Yani
+ *  * @version  	1.0
+ *  * @since		20/01/2021
+ *
+ *  * This sortOptActivity.class displays to the user several options of sorting the details
+ *    that have been inserting to the SQLite DataBase.
+ *    And there is a menu move to the others activities.
+ *  */
 public class sortOptActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     TextView titleOfOpt;
@@ -48,19 +57,25 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
 
         lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         hlp = new HelperDB(this);
-        options = new String[]{"Options","Student's grades", "Grades in a certain subject", "All the students"};
         optLv.setOnItemClickListener(this);
+
+        options = new String[]{"Options","Student's grades", "Grades in a certain subject", "All the students"};
         adp = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, options);
         optLv.setAdapter(adp);
         subjectsList = new ArrayList<String>();
         titleOfOpt.setText("Select a sorting option");
     }
 
+    /**
+     * The onItemClick method acts when an option is selected from optLv object,
+     * and call to other functions which display on lv object the result.
+     * @param position for act the right option.
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        titleOfOpt.setText("Select a sorting option");
         switch (position){
-            case 0:{
-                titleOfOpt.setText("Select a sorting option");
+            case 0:{ // when the title "Option" was clicked
                 lv.setAdapter(null);
             }
             break;
@@ -135,7 +150,6 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void displaySubjectsGrades(String input) {
-        titleOfOpt.setText("Select a sorting option");
         String[] columns = {Grades.GRADE, Grades.STUDENT_NAME, Grades.SEMESTER};
         String selection = Grades.SUBJECT +"=?";
         String[] selectionArgs = {input};
@@ -146,14 +160,14 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
         if (subjectsList.contains(input)){
             titleOfOpt.setText("Grades of the subject: "+ input);
             while (! crsr.isAfterLast()) {
-                String temp = "Name: "+ crsr.getString(crsr.getColumnIndex(Grades.STUDENT_NAME))+ ". Semester: " + crsr.getInt(crsr.getColumnIndex(Grades.SEMESTER)) + ". Grade:" + crsr.getInt(crsr.getColumnIndex(Grades.GRADE));
+                String temp = "Name:"+ crsr.getString(crsr.getColumnIndex(Grades.STUDENT_NAME))+ " Sem:" + crsr.getInt(crsr.getColumnIndex(Grades.SEMESTER)) + " Grade:" + crsr.getInt(crsr.getColumnIndex(Grades.GRADE));
                 gradesInSubject.add(temp);
                 crsr.moveToNext();
             }
             crsr.close();
             db.close();
 
-            adp = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, gradesInSubject);
+            adp = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, gradesInSubject);
             lv.setAdapter(adp);
         }
         else {
@@ -162,7 +176,7 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void displayAllStudents() {
-        titleOfOpt.setText("The whole students that have recorded");
+        titleOfOpt.setText(R.string.wholeStudentText);
         nameList = new ArrayList<String>();
         String[] columns = {Students.STUDENT_NAME};
         String selection = Students.ACTIVE +"=?";
@@ -185,7 +199,6 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void displayStudentGrades(String input) {
-        titleOfOpt.setText("Select a sorting option");
         String[] columns = {Grades.GRADE, Grades.SUBJECT, Grades.SEMESTER};
         String selection = Grades.STUDENT_NAME +"=?";
         String[] selectionArgs = {input};
@@ -193,26 +206,25 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
         db = hlp.getWritableDatabase();
         crsr = db.query(Grades.TABLE_GRADES, columns, selection, selectionArgs, null, null, null,null);
         crsr.moveToFirst();
-        if (nameList.contains(input)){
-            titleOfOpt.setText("Grades of the student:");
+        if (crsr != null){
+            titleOfOpt.setText(R.string.gardesOfStudent);
             while (! crsr.isAfterLast()) {
-                String temp = "Subject: "+ crsr.getString(crsr.getColumnIndex(Grades.SUBJECT))+ " Semester: " + crsr.getInt(crsr.getColumnIndex(Grades.SEMESTER)) + " Grade:" + crsr.getInt(crsr.getColumnIndex(Grades.GRADE));
+                String temp = "Subject: "+ crsr.getString(crsr.getColumnIndex(Grades.SUBJECT))+ " Sem.: " + crsr.getInt(crsr.getColumnIndex(Grades.SEMESTER)) + " Grade: " + crsr.getInt(crsr.getColumnIndex(Grades.GRADE));
                 gradesDetails.add(temp);
                 crsr.moveToNext();
             }
             crsr.close();
             db.close();
 
-            adp = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, gradesDetails);
+            adp = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, gradesDetails);
             lv.setAdapter(adp);
-            titleOfOpt.setText("Grades of the student: " + input);
+            titleOfOpt.setText(R.string.gardesOfStudent + input);
         }
         else {
             Toast.makeText(sortOptActivity.this, "Invalid student name", Toast.LENGTH_LONG).show();
         }
     }
-
-
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);

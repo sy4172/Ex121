@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void moveToSortedActivity(View view) {
-        Intent si = new Intent(this, displayActivity.class);
+        Intent si = new Intent(this, sortOptActivity.class);
         startActivity(si);
     }
 }
