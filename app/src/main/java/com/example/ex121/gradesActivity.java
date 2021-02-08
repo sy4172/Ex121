@@ -24,6 +24,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ *  * @author		Shahar Yani
+ *  * @version  	1.0
+ *  * @since		20/01/2021
+ *
+ *  * This gradesActivity.class displays to the user several options of sorting the details
+ *    that have been inserting to the SQLite DataBase.
+ *    And there is a menu to move to the others activities.
+ *  */
 public class gradesActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner studentsSpin, semestersSpin, subjectsSpin;
@@ -73,12 +82,12 @@ public class gradesActivity extends AppCompatActivity implements AdapterView.OnI
         crsr.close();
         db.close();
 
+        // Reading from a SharedPreference file all the subjects that has been inserted
         SharedPreferences settings = getSharedPreferences("PREFS_SUBJECTS", MODE_PRIVATE);
         Set<String> set = settings.getStringSet("SubjectsSetString", null);
         if (set != null) {
             subjectsList.addAll(set);
         }
-        else subjectsList.add("Subjects");
 
         adp = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, semestersList);
         semestersSpin.setAdapter(adp);
@@ -88,7 +97,12 @@ public class gradesActivity extends AppCompatActivity implements AdapterView.OnI
         studentsSpin.setAdapter(adp3);
     }
 
-
+    /**
+     * The addSubject method acts when the Button was clicked,
+     *  displays an AlertDialog to insert the new subject with comments
+     *
+     * @param view that was clicked
+     */
     public void addSubject(View view) {
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
         adb.setTitle("INSERT NEW SUBJECT");
@@ -108,7 +122,8 @@ public class gradesActivity extends AppCompatActivity implements AdapterView.OnI
                         if (subjectsList.isEmpty()) subjectsList.add("Subjects");
                         subjectsList.add(selectedSubject);
                         adp2.notifyDataSetChanged();
-                        // save the subjectsList in the storage as a setString array
+
+                        // Writing to a SharedPreference file all the subjects that has been inserted
                         SharedPreferences settings = getSharedPreferences("PREFS_SUBJECTS", MODE_PRIVATE);
                         SharedPreferences.Editor editor = settings.edit();
                         Set<String> set = new HashSet<String>(subjectsList);
@@ -131,6 +146,12 @@ public class gradesActivity extends AppCompatActivity implements AdapterView.OnI
         ad.show();
     }
 
+    /**
+     * The insertGradesToSQL method acts when the Button was clicked,
+     *  writing the selected student grade based on the selected parameters  with comments.
+     *
+     * @param view that was clicked
+     */
     public void insertGradesToSQL(View view) {
         int selectedGrade;
         if (!inputtedGrade.getText().toString().isEmpty()) {
@@ -157,8 +178,14 @@ public class gradesActivity extends AppCompatActivity implements AdapterView.OnI
         } else Toast.makeText(this, "No grade has detected", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * The checkIfTwice method checks the selcetd parameters in the SQLite DataBase,
+     * to prevent couples of the same data
+     *
+     * @return true if there is not twice else false
+     */
     private boolean checkIfTwice() {
-        boolean flag = true; // true: if is not twice
+        boolean flag = true;
         String[] columns = {Grades.SUBJECT, Grades.SEMESTER};
         String selection = Grades.STUDENT_NAME + "=?";
         String[] selectionArgs = {selectedStudent};
@@ -168,7 +195,7 @@ public class gradesActivity extends AppCompatActivity implements AdapterView.OnI
         if (crsr != null) {
             while ((! crsr.isAfterLast()) && flag){
                 if (crsr.getInt(crsr.getColumnIndex(Grades.SEMESTER)) == selectedSemester && crsr.getString(crsr.getColumnIndex(Grades.SUBJECT)).equals(selectedSubject)) {
-                    flag = false; // There is a case of twice data
+                    flag = false;
                 }
                 crsr.moveToNext();
             }
@@ -176,6 +203,9 @@ public class gradesActivity extends AppCompatActivity implements AdapterView.OnI
         return flag;
     }
 
+    /**
+     * The onItemSelected method saved the selected parameters from the Spinners objects
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.semestersSpin) {

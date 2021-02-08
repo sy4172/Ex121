@@ -32,7 +32,7 @@ import java.util.Set;
  *
  *  * This sortOptActivity.class displays to the user several options of sorting the details
  *    that have been inserting to the SQLite DataBase.
- *    And there is a menu move to the others activities.
+ *    And there is a menu to move to the others activities.
  *  */
 public class sortOptActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -63,7 +63,7 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
         adp = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, options);
         optLv.setAdapter(adp);
         subjectsList = new ArrayList<String>();
-        titleOfOpt.setText("Select a sorting option");
+        titleOfOpt.setText(R.string.select_option);
     }
 
     /**
@@ -73,7 +73,7 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
      */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        titleOfOpt.setText("Select a sorting option");
+        titleOfOpt.setText(R.string.select_option);
         switch (position){
             case 0:{ // when the title "Option" was clicked
                 lv.setAdapter(null);
