@@ -20,7 +20,6 @@
     <string name="subjects">Subjects</string>
     <string name="new_subject">new Subject</string>
     <string name="show_achievements">show achievements</string>
-    <string name="gardesOfStudent">Grades of the student:</string>
     <string name="wholeStudentText">The whole students that have recorded</string>
     <string name="select_option">Select a sorting option</string>
 </resources>

@@ -64,6 +64,23 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
         optLv.setAdapter(adp);
         subjectsList = new ArrayList<String>();
         titleOfOpt.setText(R.string.select_option);
+
+        nameList = new ArrayList<String>();
+        String[] columns = {Students.STUDENT_NAME};
+        String selection = Students.ACTIVE +"=?";
+        String[] selectionArgs = {"1"};
+        String orderBy = Students.STUDENT_NAME;
+        db = hlp.getWritableDatabase();
+        crsr = db.query(Students.TABLE_STUDENT, columns, selection, selectionArgs, null, null, orderBy,null);
+        crsr.moveToFirst();
+        if (crsr != null){
+            while (! crsr.isAfterLast()) {
+                nameList.add(crsr.getString(crsr.getColumnIndex(Students.STUDENT_NAME)));
+                crsr.moveToNext();
+            }
+            crsr.close();
+            db.close();
+        }
     }
 
     /**
@@ -153,11 +170,12 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
         String[] columns = {Grades.GRADE, Grades.STUDENT_NAME, Grades.SEMESTER};
         String selection = Grades.SUBJECT +"=?";
         String[] selectionArgs = {input};
+        String orderBy = Grades.GRADE;
         ArrayList<String> gradesInSubject = new ArrayList<String>();
         db = hlp.getWritableDatabase();
-        crsr = db.query(Grades.TABLE_GRADES, columns, selection, selectionArgs, null, null, null,null);
+        crsr = db.query(Grades.TABLE_GRADES, columns, selection, selectionArgs, null, null, orderBy,null);
         crsr.moveToFirst();
-        if (subjectsList.contains(input)){
+        if (subjectsList.contains(input) && crsr != null){
             titleOfOpt.setText("Grades of the subject: "+ input);
             while (! crsr.isAfterLast()) {
                 String temp = "Name:"+ crsr.getString(crsr.getColumnIndex(Grades.STUDENT_NAME))+ " Sem:" + crsr.getInt(crsr.getColumnIndex(Grades.SEMESTER)) + " Grade:" + crsr.getInt(crsr.getColumnIndex(Grades.GRADE));
@@ -177,23 +195,6 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
 
     private void displayAllStudents() {
         titleOfOpt.setText(R.string.wholeStudentText);
-        nameList = new ArrayList<String>();
-        String[] columns = {Students.STUDENT_NAME};
-        String selection = Students.ACTIVE +"=?";
-        String[] selectionArgs = {"1"};
-        String orderBy = Students.STUDENT_NAME;
-        db = hlp.getWritableDatabase();
-        crsr = db.query(Students.TABLE_STUDENT, columns, selection, selectionArgs, null, null, orderBy,null);
-        crsr.moveToFirst();
-        if (crsr != null){
-            while (! crsr.isAfterLast()) {
-                nameList.add(crsr.getString(crsr.getColumnIndex(Students.STUDENT_NAME)));
-                crsr.moveToNext();
-            }
-            crsr.close();
-            db.close();
-        }
-
         adp = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, nameList);
         lv.setAdapter(adp);
     }
@@ -202,12 +203,13 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
         String[] columns = {Grades.GRADE, Grades.SUBJECT, Grades.SEMESTER};
         String selection = Grades.STUDENT_NAME +"=?";
         String[] selectionArgs = {input};
+        String orderBy = Grades.GRADE;
         ArrayList<String> gradesDetails = new ArrayList<String>();
         db = hlp.getWritableDatabase();
-        crsr = db.query(Grades.TABLE_GRADES, columns, selection, selectionArgs, null, null, null,null);
+        crsr = db.query(Grades.TABLE_GRADES, columns, selection, selectionArgs, null, null, orderBy,null);
         crsr.moveToFirst();
-        if (crsr != null){
-            titleOfOpt.setText(R.string.gardesOfStudent);
+        if (crsr != null && nameList.contains(input)){
+            titleOfOpt.setText("Grades of the student:");
             while (! crsr.isAfterLast()) {
                 String temp = "Subject: "+ crsr.getString(crsr.getColumnIndex(Grades.SUBJECT))+ " Sem.: " + crsr.getInt(crsr.getColumnIndex(Grades.SEMESTER)) + " Grade: " + crsr.getInt(crsr.getColumnIndex(Grades.GRADE));
                 gradesDetails.add(temp);
@@ -218,7 +220,7 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
 
             adp = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, gradesDetails);
             lv.setAdapter(adp);
-            titleOfOpt.setText(R.string.gardesOfStudent + input);
+            titleOfOpt.setText("Grades of the student:"+ input);
         }
         else {
             Toast.makeText(sortOptActivity.this, "Invalid student name", Toast.LENGTH_LONG).show();
