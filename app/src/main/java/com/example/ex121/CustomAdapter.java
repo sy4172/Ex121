@@ -38,7 +38,7 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        convertView =  inflater.inflate(R.layout.custom_lv_layout, null);
+        convertView = inflater.inflate(R.layout.custom_lv_layout, null);
 
         TextView studentName = convertView.findViewById(R.id.studentName);
         TextView detailsTv = convertView.findViewById(R.id.detailsTv);

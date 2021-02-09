@@ -18,6 +18,15 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+/**
+ *  * @author		Shahar Yani
+ *  * @version  	1.0
+ *  * @since		20/01/2021
+ *
+ *  * This displayActivity.class displays to the user the whole students
+ *    that have been inserting to the SQLite DataBase.
+ *    And there is a menu to move to the others activities.
+ *  */
 public class displayActivity extends AppCompatActivity implements  View.OnCreateContextMenuListener {
 
     ListView lv;
@@ -68,8 +77,9 @@ public class displayActivity extends AppCompatActivity implements  View.OnCreate
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         v.setOnCreateContextMenuListener(this);
-        menu.setHeaderTitle("ACTION");
+        menu.setHeaderTitle("ACTIONS");
         menu.add("Delete Student");
+        menu.add("Show Grades");
         super.onCreateContextMenu(menu, v, menuInfo);
     }
 
@@ -87,9 +97,22 @@ public class displayActivity extends AppCompatActivity implements  View.OnCreate
                 lv.setAdapter(customadp);
                 Toast.makeText(this, "The student has been deleted successfully", Toast.LENGTH_SHORT).show();
         }
+        else if (action.equals("Show Grades")){
+            // Sending the selected name to the sortOptActivity.class
+            Intent si = new Intent(this, sortOptActivity.class);
+            si.putExtra("NameToGrades", nameList.get(pos));
+            startActivity(si);
+        }
+
         return super.onContextItemSelected(item);
     }
 
+    /**
+     * The deleteStudent method deletes the selected student from the SQLite DataBase STUDENT table,
+     * by deleting the whole record and inserting another in the end with 'Active' column to 0.
+     *
+     * @param posToDelete to get the student from the nameList array.
+     */
     private void deleteStudent(int posToDelete) {
         String name, address, firstParent, secondParent;
         int tel, homeTel, firstPhone, secondPhone;
@@ -127,6 +150,12 @@ public class displayActivity extends AppCompatActivity implements  View.OnCreate
         db.close();
     }
 
+    /**
+     * The deleteStudentGrades method deletes the selected subject from the SQLite DataBase GRADES table,
+     * by changing the 'Active' column to 0.
+     *
+     * @param posToDelete to get the student from the nameList array.
+     */
     private void deleteStudentGrades(int posToDelete) {
         String selection = Students.STUDENT_NAME +"=?";
         String[] selectionArgs = {nameList.get(posToDelete)};

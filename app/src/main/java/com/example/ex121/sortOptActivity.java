@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -41,6 +42,7 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
     String [] options;
     ArrayList<String> nameList, subjectsList;
     ArrayAdapter<String> adp;
+    Intent gi;
 
     SQLiteDatabase db;
     HelperDB hlp;
@@ -65,6 +67,7 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
         subjectsList = new ArrayList<String>();
         titleOfOpt.setText(R.string.select_option);
 
+        // Getting all the 'active' students from the SQLite DataBase to an arrayList
         nameList = new ArrayList<String>();
         String[] columns = {Students.STUDENT_NAME};
         String selection = Students.ACTIVE +"=?";
@@ -81,6 +84,12 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
             crsr.close();
             db.close();
         }
+
+        gi = getIntent();
+        if (!Objects.requireNonNull(gi.getStringExtra("NameToGrades")).isEmpty()){
+            lv.setAdapter(null);
+            displayStudentGrades(gi.getStringExtra("NameToGrades"));
+        }
     }
 
     /**
@@ -92,7 +101,7 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         titleOfOpt.setText(R.string.select_option);
         switch (position){
-            case 0:{ // when the title "Option" was clicked
+            case 0:{ // when the title "Option" was clicked nothing should be done
                 lv.setAdapter(null);
             }
             break;
@@ -166,6 +175,12 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
         }
     }
 
+    /**
+     * The displaySubjectsGrades method does the sorting based on the parameter of the subject
+     *  and displays all the subject's grades by order on the ListView object view.
+     *
+     * @param input - the subject to sort with.
+     */
     private void displaySubjectsGrades(String input) {
         String[] columns = {Grades.GRADE, Grades.STUDENT_NAME, Grades.SEMESTER};
         String selection = Grades.SUBJECT +"=?";
@@ -193,12 +208,22 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
         }
     }
 
+    /**
+     * The displayAllStudents method displays all the students based on the ABC's order on a ListView object.
+     *
+     */
     private void displayAllStudents() {
         titleOfOpt.setText(R.string.wholeStudentText);
         adp = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, nameList);
         lv.setAdapter(adp);
     }
 
+    /**
+     * The displayStudentGrades method does the sorting based on the parameter of the student
+     *  and displays all the student's grades by order on the ListView object view.
+     *
+     * @param input - the student to sort with.
+     */
     private void displayStudentGrades(String input) {
         String[] columns = {Grades.GRADE, Grades.SUBJECT, Grades.SEMESTER};
         String selection = Grades.STUDENT_NAME +"=?";
