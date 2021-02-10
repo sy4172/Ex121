@@ -67,6 +67,7 @@ public class gradesActivity extends AppCompatActivity implements AdapterView.OnI
 
         studentsList.add("Students");
 
+        // Getting all the 'active' students from the SQLite DataBase to an arrayList
         String[] columns = {Students.STUDENT_NAME};
         String selection = Students.ACTIVE + "=?";
         String[] selectionArgs = {"1"};

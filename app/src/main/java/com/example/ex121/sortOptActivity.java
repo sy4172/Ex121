@@ -42,7 +42,6 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
     String [] options;
     ArrayList<String> nameList, subjectsList;
     ArrayAdapter<String> adp;
-    Intent gi;
 
     SQLiteDatabase db;
     HelperDB hlp;
@@ -85,7 +84,7 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
             db.close();
         }
 
-        gi = getIntent();
+        Intent gi = getIntent();
         if (!Objects.requireNonNull(gi.getStringExtra("NameToGrades")).isEmpty()){
             lv.setAdapter(null);
             displayStudentGrades(gi.getStringExtra("NameToGrades"));
@@ -210,7 +209,6 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
 
     /**
      * The displayAllStudents method displays all the students based on the ABC's order on a ListView object.
-     *
      */
     private void displayAllStudents() {
         titleOfOpt.setText(R.string.wholeStudentText);

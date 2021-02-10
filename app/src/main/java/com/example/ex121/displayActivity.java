@@ -79,7 +79,7 @@ public class displayActivity extends AppCompatActivity implements  View.OnCreate
         v.setOnCreateContextMenuListener(this);
         menu.setHeaderTitle("ACTIONS");
         menu.add("Delete Student");
-        menu.add("Show Grades");
+        menu.add("Show Grades"); // Move to sortOptActivity.class
         super.onCreateContextMenu(menu, v, menuInfo);
     }
 
