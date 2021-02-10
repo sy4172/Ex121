@@ -85,9 +85,10 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
         }
 
         Intent gi = getIntent();
-        if (!Objects.requireNonNull(gi.getStringExtra("NameToGrades")).isEmpty()){
+        String nameToDisplay = gi.getStringExtra("NameToGrades");
+        if (nameToDisplay != null){
             lv.setAdapter(null);
-            displayStudentGrades(gi.getStringExtra("NameToGrades"));
+            displayStudentGrades(nameToDisplay);
         }
     }
 
@@ -181,7 +182,7 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
      * @param input - the subject to sort with.
      */
     private void displaySubjectsGrades(String input) {
-        String[] columns = {Grades.GRADE, Grades.STUDENT_NAME, Grades.SEMESTER};
+        String[] columns = {Grades.GRADE, Grades.STUDENT_NAME, Grades.SEMESTER, Grades.IS_ACTIVE};
         String selection = Grades.SUBJECT +"=?";
         String[] selectionArgs = {input};
         String orderBy = Grades.GRADE;
@@ -192,9 +193,12 @@ public class sortOptActivity extends AppCompatActivity implements AdapterView.On
         if (subjectsList.contains(input) && crsr != null){
             titleOfOpt.setText("Grades of the subject: "+ input);
             while (! crsr.isAfterLast()) {
-                String temp = "Name:"+ crsr.getString(crsr.getColumnIndex(Grades.STUDENT_NAME))+ " Sem:" + crsr.getInt(crsr.getColumnIndex(Grades.SEMESTER)) + " Grade:" + crsr.getInt(crsr.getColumnIndex(Grades.GRADE));
-                gradesInSubject.add(temp);
-                crsr.moveToNext();
+                // Getting the actives students only to display
+                if (crsr.getInt(crsr.getColumnIndex(Grades.IS_ACTIVE)) == 1) {
+                    String temp = "Name:" + crsr.getString(crsr.getColumnIndex(Grades.STUDENT_NAME)) + " Sem:" + crsr.getInt(crsr.getColumnIndex(Grades.SEMESTER)) + " Grade:" + crsr.getInt(crsr.getColumnIndex(Grades.GRADE));
+                    gradesInSubject.add(temp);
+                    crsr.moveToNext();
+                }
             }
             crsr.close();
             db.close();
