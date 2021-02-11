@@ -128,7 +128,7 @@ public class inputActivity extends AppCompatActivity {
             flag = false;
         if (tel.getText().toString().length() != 10 || homeTel.getText().toString().length() != 9) flag = false;
         if (name.getText().toString().endsWith(" ")) flag = false;
-        if (name.getText().toString().contains("[0-9]+") || address.getText().toString().startsWith("[0-9]+")) flag = false;
+        if (name.getText().toString().contains("\\d+") || address.getText().toString().startsWith("\\d+")) flag = false; // .contains("\\d+") - check if there is numbers in a String variable
         if (firstTel.getText().toString().length() > 0 || secTel.getText().toString().length() > 0){
             if (firstTel.getText().toString().contains("[a-zA-Z]+") || secTel.getText().toString().contains("[a-zA-Z]+") ||firstParent.getText().toString().contains("[0-9]+") || secParent.getText().toString().contains("[0-9]+")){
                 flag = false;

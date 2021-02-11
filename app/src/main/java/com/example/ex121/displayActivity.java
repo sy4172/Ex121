@@ -31,8 +31,7 @@ public class displayActivity extends AppCompatActivity implements  View.OnCreate
 
     ListView lv;
     CustomAdapter customadp;
-    ArrayList<String> nameList;
-    ArrayList<String> details;
+    ArrayList<String> nameList, details;
     int pos;
 
     SQLiteDatabase db;
