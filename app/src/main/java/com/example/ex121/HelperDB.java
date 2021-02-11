@@ -22,7 +22,6 @@ import static com.example.ex121.Students.PHONE2;
 import static com.example.ex121.Students.TABLE_STUDENT;
 import static com.example.ex121.Students.STUDENT_NAME;
 import static com.example.ex121.Students.TEL;
-// להוסיף את הטבלה השנייה
 public class HelperDB extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "StudentInfo.db";
     private static final int DATABASE_VERSION = 3;
