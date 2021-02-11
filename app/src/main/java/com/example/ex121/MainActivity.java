@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    public void moveToSortedActivity(View view) {
+        Intent si = new Intent(this, sortOptActivity.class);
+        startActivity(si);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -58,11 +62,5 @@ public class MainActivity extends AppCompatActivity {
             startActivity(si);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    public void moveToSortedActivity(View view) {
-        Intent si = new Intent(this, sortOptActivity.class);
-        startActivity(si);
     }
 }

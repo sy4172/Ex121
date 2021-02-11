@@ -9,6 +9,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ *  * @author		Shahar Yani
+ *  * @version  	1.0
+ *  * @since		20/01/2021
+ *
+ *  * This CustomAdapter.class is a new adapter in order to design one item in the CustomListView object.
+ *  */
 public class CustomAdapter extends BaseAdapter {
     Context context;
     ArrayList<String> nameList, details;
