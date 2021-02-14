@@ -119,6 +119,9 @@ public class gradesActivity extends AppCompatActivity implements AdapterView.OnI
                     String selectedSubject = newSubject.getText().toString();
                     if (subjectsList.contains(selectedSubject))
                         Toast.makeText(gradesActivity.this, "The subject is already in the list", Toast.LENGTH_SHORT).show();
+                    else if (selectedSubject.equals("Students")) {
+                        Toast.makeText(gradesActivity.this, "No such a subject", Toast.LENGTH_SHORT).show();
+                    }
                     else {
                         if (subjectsList.isEmpty()) subjectsList.add("Subjects");
                         subjectsList.add(selectedSubject);
