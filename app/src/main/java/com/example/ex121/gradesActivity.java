@@ -66,6 +66,8 @@ public class gradesActivity extends AppCompatActivity implements AdapterView.OnI
         subjectsSpin.setOnItemSelectedListener(this);
 
         studentsList.add("Students");
+        subjectsList.add("Subjects");
+        selectedSubject = "Subjects";
 
         // Getting all the 'active' students from the SQLite DataBase to an arrayList
         String[] columns = {Students.STUDENT_NAME};
